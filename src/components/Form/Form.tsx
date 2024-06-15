@@ -1,21 +1,76 @@
-import { Box, Button, FormControl, Grid, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { TextField, Button, Stack, Box } from "@mui/material";
+import { DevTool } from "@hookform/devtools";
 
-export function Form() {
+type FormValues = {
+  nome: string;
+  placa: string;
+  horaChegada: string;
+  QTDE: string;
+};
+
+export const Form = () => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    control,
+  } = useForm<FormValues>({
+    defaultValues: {
+      nome: "",
+      placa: "",
+      horaChegada: "",
+      QTDE: "",
+    },
+  });
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
+
   return (
     <Box display={"flex"} justifyContent={"center"} marginTop={"5em"}>
-      <FormControl sx={{ backgroundColor: "#fff", padding: "2em", borderRadius: "5px" }}>
-        <Grid display={"flex"} flexDirection={"column"} gap={1} >
-          <TextField variant="filled" placeholder="Motorista" />
-          <TextField variant="filled" placeholder="Placa" />
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Stack
+          spacing={2}
+          bgcolor={"#fff"}
+          padding={"2em"}
+          borderRadius={"5px"}
+        >
           <TextField
-            variant="filled"
-            type="datetime-local"
-            placeholder="Horario"
+            label="Motorista"
+            type="text"
+            {...register("nome", { required: "Motorista é necessario" })}
+            error={!!errors.nome}
+            helperText={errors.nome?.message}
           />
-          <TextField variant="filled" type="number" placeholder="Pacotes" />
-          <Button variant="contained">ENVIAR</Button>
-        </Grid>
-      </FormControl>
+          <TextField
+            label="Placa"
+            type="text"
+            {...register("placa", { required: "Placa é necessario" })}
+            error={!!errors.placa}
+            helperText={errors.placa?.message}
+          />
+          <TextField
+            label="Horario de Chegada"
+            type="time"
+            {...register("horaChegada", { required: "Horario de chegada é necessario" })}
+            error={!!errors.horaChegada}
+            helperText={errors.horaChegada?.message}
+          />
+          <TextField
+            label="Quantidade"
+            type="text"
+            {...register("QTDE", { required: "Quantidade é necessario" })}
+            error={!!errors.QTDE}
+            helperText={errors.QTDE?.message}
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Login
+          </Button>
+        </Stack>
+      </form>
+      
     </Box>
   );
-}
+};

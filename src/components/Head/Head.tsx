@@ -8,7 +8,7 @@ export function Head() {
     p={3}
     >
       <Typography 
-        variant={"h5"} 
+        variant={"h6"} 
         display={"flex"} 
         justifyContent={"center"}
         color={"white"}
